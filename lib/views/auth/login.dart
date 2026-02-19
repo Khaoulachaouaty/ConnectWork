@@ -1,3 +1,4 @@
+import 'package:connctwork/views/home/feed.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 
@@ -55,7 +56,7 @@ class _LoginState extends State<Login>
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Scaffold()),
+        MaterialPageRoute(builder: (context) => const Feed()),
       );
     }
   }
@@ -69,6 +70,7 @@ class _LoginState extends State<Login>
           SizedBox(
             height: 350,
             width: double.infinity,
+            //logo
             child: Center(
               child: TweenAnimationBuilder(
                 tween: Tween<double>(begin: 0, end: 1),
@@ -221,33 +223,7 @@ class _LoginState extends State<Login>
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Pas encore de compte ? ',
-                              style: TextStyle(color: AppColors.textSecondary),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Scaffold(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'S\'inscrire',
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
+                       
                       ],
                     ),
                   ),
