@@ -6,14 +6,12 @@ class PostCard extends StatelessWidget {
   final Post post;
   final VoidCallback? onLike;
   final VoidCallback? onComment;
-  final VoidCallback? onShare;
 
   const PostCard({
     super.key,
     required this.post,
     this.onLike,
     this.onComment,
-    this.onShare,
   });
 
   @override
@@ -80,10 +78,40 @@ class PostCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert, color: AppColors.textSecondary),
-                  onPressed: () => _showOptionsMenu(context),
-                ),
+                // Menu simplifié - uniquement pour l'auteur (modifier/supprimer)
+                if (post.userId == 'current_user')
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert, color: AppColors.textSecondary),
+                    onSelected: (value) {
+                      if (value == 'edit') {
+                        // Modifier
+                      } else if (value == 'delete') {
+                        _showDeleteConfirm(context);
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit, size: 20, color: AppColors.primary),
+                            SizedBox(width: 12),
+                            Text('Modifier'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete, size: 20, color: AppColors.error),
+                            SizedBox(width: 12),
+                            Text('Supprimer', style: TextStyle(color: AppColors.error)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -154,26 +182,25 @@ class PostCard extends StatelessWidget {
             ),
           ),
           const Divider(height: 24),
+          // Actions simplifiées : Like et Commenter uniquement
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildActionButton(
-                  icon: post.isLiked ? Icons.favorite : Icons.favorite_border,
-                  label: 'J\'aime',
-                  color: post.isLiked ? AppColors.error : AppColors.textSecondary,
-                  onTap: onLike,
+                Expanded(
+                  child: _buildActionButton(
+                    icon: post.isLiked ? Icons.favorite : Icons.favorite_border,
+                    label: 'J\'aime',
+                    color: post.isLiked ? AppColors.error : AppColors.textSecondary,
+                    onTap: onLike,
+                  ),
                 ),
-                _buildActionButton(
-                  icon: Icons.chat_bubble_outline,
-                  label: 'Commenter',
-                  onTap: onComment,
-                ),
-                _buildActionButton(
-                  icon: Icons.share_outlined,
-                  label: 'Partager',
-                  onTap: onShare,
+                Expanded(
+                  child: _buildActionButton(
+                    icon: Icons.chat_bubble_outline,
+                    label: 'Commenter',
+                    onTap: onComment,
+                  ),
                 ),
               ],
             ),
@@ -193,8 +220,9 @@ class PostCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 20, color: color ?? AppColors.textSecondary),
             const SizedBox(width: 6),
@@ -202,7 +230,7 @@ class PostCard extends StatelessWidget {
               label,
               style: TextStyle(
                 color: color ?? AppColors.textSecondary,
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -212,45 +240,30 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  void _showOptionsMenu(BuildContext context) {
-    showModalBottomSheet(
+  void _showDeleteConfirm(BuildContext context) {
+    showDialog(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.grey300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.bookmark_border, color: AppColors.primary),
-                title: const Text('Sauvegarder'),
-                onTap: () => Navigator.pop(context),
-              ),
-              ListTile(
-                leading: const Icon(Icons.notifications_off_outlined, color: AppColors.textSecondary),
-                title: const Text('Masquer les notifications'),
-                onTap: () => Navigator.pop(context),
-              ),
-              ListTile(
-                leading: const Icon(Icons.flag_outlined, color: AppColors.error),
-                title: const Text('Signaler', style: TextStyle(color: AppColors.error)),
-                onTap: () => Navigator.pop(context),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text('Supprimer la publication'),
+        content: const Text('Êtes-vous sûr de vouloir supprimer cette publication ?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Annuler'),
           ),
-        );
-      },
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Supprimer le post
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.error,
+              foregroundColor: AppColors.white,
+            ),
+            child: const Text('Supprimer'),
+          ),
+        ],
+      ),
     );
   }
 }
