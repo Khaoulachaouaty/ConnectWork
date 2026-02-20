@@ -5,6 +5,8 @@ import '../../models/user.dart';
 import '../../widgets/post_card.dart';
 import 'create_post.dart';
 import '../../widgets/bottom_nav_bar.dart';
+import '../search/search.dart';
+
 
 
 class Feed extends StatefulWidget {
@@ -137,7 +139,7 @@ class _FeedState extends State<Feed> {
         icon: const Icon(Icons.search, size: 24, color: AppColors.white),
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const Scaffold()),
+          MaterialPageRoute(builder: (context) => const Search()),
         ),
       ),
     ),
@@ -150,7 +152,7 @@ class _FeedState extends State<Feed> {
       child: Stack(
         children: [
           IconButton(
-            icon: const Icon(Icons.notifications_outlined, size: 24, color: AppColors.white),
+            icon: const Icon(Icons.notifications_outlined, size: 24, color: Color.fromARGB(255, 255, 255, 255)),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -165,7 +167,7 @@ class _FeedState extends State<Feed> {
               width: 16,
               height: 16,
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 91, 107, 171),
+                color: Color.fromARGB(255, 73, 5, 141),
                 shape: BoxShape.circle,
               ),
               child: const Center(
