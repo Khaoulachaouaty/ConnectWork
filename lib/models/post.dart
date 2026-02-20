@@ -11,6 +11,8 @@ class Post {
   final bool isLiked;
   final String? groupName;
   final List<String>? attachments;
+  final bool isEdited;
+
 
   Post({
     required this.id,
@@ -25,6 +27,7 @@ class Post {
     this.isLiked = false,
     this.groupName,
     this.attachments,
+    this.isEdited = false,
   });
 
   static List<Post> getMockPosts() {

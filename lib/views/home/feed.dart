@@ -165,7 +165,7 @@ class _FeedState extends State<Feed> {
               width: 16,
               height: 16,
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 135, 193, 108),
+                color: Color.fromARGB(255, 91, 107, 171),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -268,7 +268,7 @@ class _FeedState extends State<Feed> {
                 }
                 return PostCard(
                   post: _posts[index],
-                  onLike: () {},
+                 
                   onComment: () => Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -68,7 +68,7 @@ class _LoginState extends State<Login>
       body: Column(
         children: [
           SizedBox(
-            height: 350,
+            height: MediaQuery.of(context).size.height * 0.42,
             width: double.infinity,
             //logo
             child: Center(
