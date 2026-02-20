@@ -6,6 +6,7 @@ import '../../widgets/post_card.dart';
 import 'create_post.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../search/search.dart';
+import '../notifications/notifications.dart';
 
 
 
@@ -156,7 +157,7 @@ class _FeedState extends State<Feed> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const Scaffold(),
+                builder: (context) => const Notifications(),
               ),
             ),
           ),
